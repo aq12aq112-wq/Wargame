@@ -1,11 +1,24 @@
+import sys
+import subprocess
+
+# نصب خودکار پکیج‌ها در صورت عدم حضور روی سرور Railway
+def install_dependencies():
+    required_packages = {"aiogram": "aiogram==3.13.1", "aiosqlite": "aiosqlite==0.20.0"}
+    for module_name, package_spec in required_packages.items():
+        try:
+            __import__(module_name)
+        except ImportError:
+            print(f"📦 در حال نصب خودکار پکیج {package_spec}...")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package_spec])
+
+install_dependencies()
+
 import asyncio
 import logging
-import sys
 import random
 from aiogram import Bot, Dispatcher, Router, F
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
-# اطلاعات و تنظیمات کلیدی جهان
 BOT_TOKEN = "8807018385:AAH0BJOhINR_TqpU0i_3b29QGWOlL5QUL2M"
 ADMIN_ID = 6937799221
 
@@ -270,4 +283,3 @@ async def main():
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
-
